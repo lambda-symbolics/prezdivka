@@ -1,0 +1,50 @@
+#+TITLE: prezdivka
+#+STARTUP: content
+
+=prezdivka= makes readable two-word names, an adjective and a noun joined by a
+hyphen: =hygienic-macro=, =lazy-thunk=, =elvish-bitdiddle=. A name is easier to
+say, type and remember than an identifier, so it suits things people talk
+about: agents, sessions, machines, branches.
+
+The words have a Lisp accent: its vocabulary, its dialects and machines, its
+people, the hacker jargon that grew up beside it, and the cast of SICP's
+exercises. Every word is lowercase ASCII letters, at most twelve of them.
+
+#+BEGIN_SRC lisp
+(prezdivka:random-name)
+;; => "improper-macro"
+
+(prezdivka:name-for "b6uouHJ")
+;; => "strict-gensym"
+
+(prezdivka:unique-name "b6uouHJ" (lambda (name) (gethash name *taken*)))
+;; => "strict-gensym", or another name while that one is taken
+#+END_SRC
+
+* Names for keys
+
+=NAME-FOR= returns the same name for the same string on every call, in every
+image and on every implementation: the key is hashed with 32-bit FNV-1a, not
+with =SXHASH=. Different keys can share a name; with the built-in lists there
+are 8,400 names.
+
+=UNIQUE-NAME= takes a function that says whether a name is taken. It tries the
+key's own name first, then every other name once, in an order the key fixes.
+Only when all of them are taken does it number the key's own name, from 2.
+
+* Other words
+
+Each function takes =:ADJECTIVES= and =:NOUNS=, vectors of strings, in place of
+=*ADJECTIVES*= and =*NOUNS*=. The order of a list is part of what =NAME-FOR=
+returns, so add words at the end to keep the names of existing keys.
+
+* Checks
+
+#+BEGIN_SRC sh
+./script/bootstrap
+./script/check
+#+END_SRC
+
+=./script/check= runs the tests, then the source rules of
+[[https://github.com/lambda-symbolics/cheque][cheque]]. =./script/check --fix= repairs what the rules can repair and skips
+the tests.
