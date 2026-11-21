@@ -1,13 +1,6 @@
 (defpackage #:prezdivka/tests
   (:documentation "Regression tests for prezdivka.")
   (:use #:cl)
-  (:import-from #:prezdivka
-                #:*adjectives*
-                #:*nouns*
-                #:name-count
-                #:name-for
-                #:random-name
-                #:unique-name)
   (:export #:run-tests))
 
 (in-package #:prezdivka/tests)

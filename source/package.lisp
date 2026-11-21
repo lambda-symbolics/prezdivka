@@ -5,6 +5,7 @@
            #:*nouns*
            #:name-count
            #:name-for
-             #:random-name
-             #:unique-base-name
-             #:unique-name))
+           #:random-name
+           #:base-name-exhausted
+           #:unique-base-name
+           #:unique-name))

@@ -32,6 +32,12 @@ are 8,400 names.
 key's own name first, then every other name once, in an order the key fixes.
 Only when all of them are taken does it number the key's own name, from 2.
 
+* Explicit base names
+
+=UNIQUE-BASE-NAME= takes a base string and a predicate for taken names. It tries
+that base, then =base-2=, =base-3=, and so on, shortening the base as needed to
+fit =:MAXIMUM-LENGTH= (32 by default). If no candidate fits, it signals an error.
+
 * Other words
 
 Each function takes =:ADJECTIVES= and =:NOUNS=, vectors of strings, in place of
