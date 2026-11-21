@@ -24,6 +24,20 @@
                                 (* 16777619 (logxor hash (logand #xff (char-code character)))))))
     hash))
 
+(declaim (ftype (function (string function &key (:maximum-length (integer 1))) string)
+                unique-base-name))
+(defun unique-base-name (base taken-p &key (maximum-length 32))
+  "Return BASE, or its lowest free numbered suffix, within MAXIMUM-LENGTH."
+  (check-type base string)
+  (check-type maximum-length (integer 1))
+  (let ((base (subseq base 0 (min maximum-length (length base)))))
+      (loop for index from 1
+            for suffix = (if (= index 1) "" (format nil "-~D" index))
+          for room = (max 1 (- maximum-length (length suffix)))
+          for candidate = (concatenate 'string (subseq base 0 (min room (length base))) suffix)
+          unless (funcall taken-p candidate)
+            return candidate)))
+
 (declaim (ftype (function (&key (:adjectives vector) (:nouns vector) (:random-state random-state)) string)
                 random-name))
 (defun random-name (&key (adjectives *adjectives*) (nouns *nouns*) (random-state *random-state*))
